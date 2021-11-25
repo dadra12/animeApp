@@ -38,6 +38,22 @@ public class AnimeController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createAnime(@RequestBody Anime anime, Authentication authentication) {
+        if (animeRepository.findByname(anime.name) != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(ErrorMessage.message("Ja existeix un anime amb el nom \'" + anime.name + "\'"));
+        }
         return ResponseEntity.ok().body(animeRepository.save(anime));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteAnime(@PathVariable UUID id) {
+        Anime anime = animeRepository.findById(id).orElse(null);
+        if (anime != null) {
+            animeRepository.deleteById(id);
+            return ResponseEntity.ok()
+                    .body(ErrorMessage.message(String.format("S'ha eliminat l'anime amd id '%s'", id)));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorMessage.message(String.format("No s 'ha trobat l' anime amd id %s", id)));
     }
 }

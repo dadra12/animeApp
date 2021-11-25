@@ -7,4 +7,5 @@ import java.util.UUID;
 
 public interface AnimeRepository extends JpaRepository<Anime, UUID> {
 
+    Anime findByname(String name);
 }
