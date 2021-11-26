@@ -45,7 +45,7 @@ public class AnimeController {
         return ResponseEntity.ok().body(animeRepository.save(anime));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteAnime(@PathVariable UUID id) {
         Anime anime = animeRepository.findById(id).orElse(null);
         if (anime != null) {
