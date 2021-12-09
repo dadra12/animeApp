@@ -36,7 +36,7 @@ public class AnimeController {
         return ResponseEntity.ok().body(anime);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/")
     public ResponseEntity<?> createAnime(@RequestBody Anime anime, Authentication authentication) {
         if (animeRepository.findByname(anime.name) != null) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
@@ -45,7 +45,7 @@ public class AnimeController {
         return ResponseEntity.ok().body(animeRepository.save(anime));
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAnime(@PathVariable UUID id) {
         Anime anime = animeRepository.findById(id).orElse(null);
         if (anime != null) {
@@ -54,6 +54,6 @@ public class AnimeController {
                     .body(ErrorMessage.message(String.format("S'ha eliminat l'anime amd id '%s'", id)));
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(ErrorMessage.message(String.format("No s 'ha trobat l' anime amd id %s", id)));
+                .body(ErrorMessage.message(String.format("No s'ha trobat l'anime amd id %s", id)));
     }
 }

@@ -1,10 +1,9 @@
 package com.example.animeAPP.controller;
 
-
 import com.example.animeAPP.domain.dto.ErrorMessage;
 import com.example.animeAPP.domain.dto.ListResult;
-import com.example.animeAPP.domain.model.projections.ProjectionAuthor;
-import com.example.animeAPP.repository.AuthorRepository;
+import com.example.animeAPP.domain.model.projections.ProjectionGenre;
+import com.example.animeAPP.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,28 +15,29 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+
 @RestController
-@RequestMapping("/authors")
-public class AuthorController {
+@RequestMapping("/genres")
+public class GenreController {
     @Autowired
-    private AuthorRepository AuthorRepository;
+    private GenreRepository genreRepository;
 
     @GetMapping("/")
-    public ResponseEntity<?> getAllAuthor() {
-        List<ProjectionAuthor> authorList = AuthorRepository.findBy();
-        return ResponseEntity.ok().body(ListResult.list(authorList));
+    public ResponseEntity<?> getAllGenre() {
+        List<ProjectionGenre> genreList = genreRepository.findBy();
+        return ResponseEntity.ok().body(ListResult.list(genreList));
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getAuthor(@PathVariable UUID id) {
-        ProjectionAuthor author = AuthorRepository.findByAuthorid(id);
-        if (author != null) {
-            return ResponseEntity.ok().body(author);
+    public ResponseEntity<?> getGenre(@PathVariable UUID id) {
+        ProjectionGenre genre = genreRepository.findByGenreid(id);
+        if (genre != null) {
+            return ResponseEntity.ok().body(genre);
         }
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(ErrorMessage.message(String.format("No s'ha trobat l'author amd id %s", id)));
+                .body(ErrorMessage.message(String.format("No s'ha trobat el genre amd id %s", id)));
     }
 
 }
