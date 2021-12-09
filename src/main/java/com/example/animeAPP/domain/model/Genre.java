@@ -19,5 +19,4 @@ public class Genre {
     @JsonIgnoreProperties("genres")
     public Set<Anime>animes;
 
-
 }
