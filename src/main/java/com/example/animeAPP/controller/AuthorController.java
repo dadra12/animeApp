@@ -4,6 +4,7 @@ package com.example.animeAPP.controller;
 import com.example.animeAPP.domain.dto.ErrorMessage;
 import com.example.animeAPP.domain.dto.ListResult;
 import com.example.animeAPP.domain.model.projections.ProjectionAuthor;
+import com.example.animeAPP.domain.model.projections.ProjectionAuthorDetails;
 import com.example.animeAPP.repository.AuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,13 +32,13 @@ public class AuthorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getAuthor(@PathVariable UUID id) {
-        ProjectionAuthor author = AuthorRepository.findByAuthorid(id);
+        ProjectionAuthorDetails author = AuthorRepository.findByAuthorid(id, ProjectionAuthorDetails.class);
         if (author != null) {
             return ResponseEntity.ok().body(author);
         }
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(ErrorMessage.message(String.format("No s'ha trobat l'author amd id %s", id)));
+                .body(ErrorMessage.message(String.format("No s 'ha trobat l' author amd id %s", id)));
     }
 
 }

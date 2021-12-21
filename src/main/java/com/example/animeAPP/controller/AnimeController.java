@@ -3,6 +3,7 @@ package com.example.animeAPP.controller;
 import com.example.animeAPP.domain.dto.ErrorMessage;
 import com.example.animeAPP.domain.dto.ListResult;
 import com.example.animeAPP.domain.model.Anime;
+import com.example.animeAPP.domain.model.projections.ProjectionAnime;
 import com.example.animeAPP.repository.AnimeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -21,8 +23,10 @@ public class AnimeController {
     private AnimeRepository animeRepository;
 
     @GetMapping("/")
-    public ResponseEntity<?> findAllAnimes(Authentication authentication) {
-        return ResponseEntity.ok().body(ListResult.list(animeRepository.findAll()));
+    public ResponseEntity<?> getAllAnime() {
+        List<ProjectionAnime> animeList = animeRepository.findBy();
+        return ResponseEntity.ok().body(ListResult.list(animeList));
+
     }
 
     @GetMapping("/{id}")
